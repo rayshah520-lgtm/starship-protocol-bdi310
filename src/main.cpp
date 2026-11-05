@@ -65,6 +65,7 @@ const char PAGE[] PROGMEM = R"STARSHIP(
     .details strong { color:#e2f8ff; font-size:15px; }
     .preview { display:none; margin:23px auto 0; padding:12px 17px; color:#041421;
       background:#90eaf8; border:0; border-radius:8px; font-weight:800; cursor:pointer; touch-action:none; }
+    .preview:focus-visible { outline:3px solid #e2f7ff; outline-offset:5px; }
     .hint { padding-top:16px; color:#6f9bac; font-size:12px; line-height:1.5; }
   </style>
 </head>
@@ -93,22 +94,41 @@ const char PAGE[] PROGMEM = R"STARSHIP(
     function showState(pressed, pressCount) {
       panel.classList.toggle('active', pressed);
       signal.textContent = pressed ? 'SIGNAL ACTIVE' : 'STANDBY';
-      description.textContent = pressed ? 'Transmitting from the ESP32...' : 'Hold the physical button to transmit.';
+      description.textContent = document.documentElement.dataset.mode === 'preview'
+        ? (pressed ? 'Simulated transmission. Hardware is not connected.' : 'Hold the virtual button to simulate a signal.')
+        : (pressed ? 'Transmitting from the ESP32...' : 'Hold the physical button to transmit.');
       count.textContent = pressCount;
     }
+    const POLL_MS = 250;
+    const REQUEST_TIMEOUT_MS = 2000;
+    let requestInFlight = false;
     async function update() {
+      if (requestInFlight) return;
+      requestInFlight = true;
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
       try {
-        const response = await fetch('/state', { cache: 'no-store' });
+        const response = await fetch('/state', { cache: 'no-store', signal: controller.signal });
         if (!response.ok) throw new Error('ESP32 response failed');
         const data = await response.json();
+        if (typeof data !== 'object' || data === null ||
+            typeof data.pressed !== 'boolean' ||
+            !Number.isSafeInteger(data.count) || data.count < 0) {
+          throw new Error('Invalid ESP32 state');
+        }
         showState(data.pressed, data.count);
         connection.textContent = 'CONNECTED';
       } catch (err) {
-        showState(false, count.textContent);
+        panel.classList.toggle('active', false);
+        signal.textContent = 'SIGNAL UNKNOWN';
+        description.textContent = 'Reconnect to the ESP32. Last count may be stale.';
         connection.textContent = 'DISCONNECTED';
+      } finally {
+        clearTimeout(timeout);
+        requestInFlight = false;
       }
     }
-    if (location.protocol === 'file:') {
+    if (document.documentElement.dataset.mode === 'preview') {
       // The offline preview only imitates a button. No ESP32 is controlled.
       let previewCount = 0;
       let pressed = false;
@@ -122,13 +142,29 @@ const char PAGE[] PROGMEM = R"STARSHIP(
         if (event.pointerId != null) virtual.setPointerCapture(event.pointerId);
       };
       const up = () => { pressed = false; showState(false, previewCount); };
+      showState(false, previewCount);
       virtual.addEventListener('pointerdown', down);
       virtual.addEventListener('pointerup', up);
       virtual.addEventListener('pointercancel', up);
+      virtual.addEventListener('lostpointercapture', up);
+      virtual.addEventListener('keydown', (event) => {
+        if (event.key === ' ' || event.key === 'Enter') {
+          event.preventDefault();
+          if (!event.repeat) down(event);
+        }
+      });
+      virtual.addEventListener('keyup', (event) => {
+        if (event.key === ' ' || event.key === 'Enter') {
+          event.preventDefault(); up();
+        }
+      });
+      virtual.addEventListener('blur', up);
       window.addEventListener('blur', up);
     } else {
+      signal.textContent = 'SIGNAL UNKNOWN';
+      description.textContent = 'Waiting for the ESP32...';
       update();
-      setInterval(update, 250);
+      setInterval(update, POLL_MS);
     }
   </script>
 </body>
