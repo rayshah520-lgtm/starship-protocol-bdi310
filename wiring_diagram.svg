@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 590" role="img" aria-label="Wiring connections between ESP32, LED, resistor and button">
+<rect width="1000" height="590" fill="#081421"/>
+<text x="42" y="52" fill="#e8faff" font-size="32" font-weight="bold" font-family="Arial">BDI 310 — Starship Signal Console</text>
+<text x="42" y="84" fill="#7bcbe8" font-size="18" font-family="Arial">Connection map · match your board's printed GPIO labels</text>
+<rect x="40" y="145" width="300" height="358" rx="20" fill="#1b3450" stroke="#6aafcd" stroke-width="3"/>
+<rect x="98" y="209" width="180" height="216" rx="12" fill="#253c4a" stroke="#b5dce7"/>
+<text x="190" y="281" text-anchor="middle" fill="white" font-family="Arial" font-size="27" font-weight="bold">ESP32</text>
+<text x="190" y="314" text-anchor="middle" fill="#a0c9e2" font-family="Arial" font-size="15">WROOM-32</text>
+<text x="190" y="342" text-anchor="middle" fill="#a0c9e2" font-family="Arial" font-size="13">USB power / code</text>
+<rect x="302" y="205" width="83" height="34" rx="5" fill="#3c6085"/><text x="343" y="228" fill="white" text-anchor="middle" font-family="Arial" font-size="17">G18</text>
+<rect x="302" y="297" width="83" height="34" rx="5" fill="#3c6085"/><text x="343" y="320" fill="white" text-anchor="middle" font-family="Arial" font-size="17">G23</text>
+<rect x="302" y="401" width="83" height="34" rx="5" fill="#3c6085"/><text x="343" y="424" fill="white" text-anchor="middle" font-family="Arial" font-size="17">GND</text>
+<path d="M385 222 H470" stroke="#f5b443" stroke-width="6" fill="none"/>
+<rect x="470" y="204" width="170" height="36" rx="8" fill="#e9cd93" stroke="#fff" stroke-width="2"/>
+<text x="555" y="229" fill="#3b2a12" font-family="Arial" font-size="20" text-anchor="middle" font-weight="bold">220 Ω resistor</text>
+<path d="M640 222 H752" stroke="#f5b443" stroke-width="6"/>
+<rect x="754" y="183" width="99" height="78" rx="39" fill="#2fb5f7" stroke="#c1f8ff" stroke-width="3"/>
+<text x="803" y="229" text-anchor="middle" fill="#051e31" font-family="Arial" font-size="25" font-weight="bold">LED</text>
+<text x="802" y="290" fill="#eaf7ff" font-family="Arial" font-size="17" text-anchor="middle">long leg (+)</text>
+<path d="M853 223 H926 V421 H385" stroke="#c6d4dd" stroke-width="5" fill="none"/>
+<text x="888" y="376" fill="#bad5e2" font-size="17" font-family="Arial">short leg (−)</text>
+<path d="M385 314 H502" stroke="#6de7a3" stroke-width="6"/>
+<rect x="505" y="289" width="220" height="65" rx="12" fill="#203e4a" stroke="#77ffd3" stroke-width="3"/>
+<text x="615" y="316" fill="#e5fff5" font-size="20" text-anchor="middle" font-family="Arial" font-weight="bold">PUSH BUTTON</text>
+<text x="615" y="341" fill="#beebdb" font-size="13" text-anchor="middle" font-family="Arial">opposite contact sides</text>
+<path d="M725 322 H764 V470 H435 V421 H385" stroke="#6de7a3" stroke-width="5" fill="none"/>
+<text x="41" y="548" fill="#efb2a5" font-size="19" font-family="Arial">UNPLUG USB WHEN WIRING. Do not connect GPIO directly to 5V. Diagram is logical, not a physical pin layout.</text>
+</svg>
