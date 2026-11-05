@@ -25,4 +25,4 @@ Filename: RayyanShah_BDI310_M7.pdf.
 Put the real github.com repository URL at the top, then the journal entry, a genuine screenshot of docs/findings.md open in VS Code, a screenshot of the running app, and a screenshot of GitHub commit history showing the first build and findings commits before fixes.
 
 ## Current status
-Planning documents created on 5 November 2026. GitHub repository creation awaits account sign-in. This planning package is not the completed M7 submission and contains no fabricated test findings or screenshots.
+Planning documents created on 5 November 2026. Repository created and plans committed. See findings.md, journal.md and test-results.md for the subsequent implementation record and remaining hardware checks.
