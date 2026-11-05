@@ -23,3 +23,6 @@ These are local work commits, not GitHub commit hashes. The GitHub first-build a
 
 ## Physical checks pending
 No ESP32 is attached. Firmware upload, real button/LED response, physical debounce, board restart, routes and actual Wi-Fi reconnection have not been verified on hardware. Browser/VM tests do not replace these checks.
+
+## Firmware compilation
+PASS: PlatformIO esp32dev build completed successfully in 54.93 seconds with telemetry disabled. It generated firmware.bin using espressif32 8.0.0 and the Arduino framework. This verifies compilation, not physical upload or operation.
